@@ -2,12 +2,15 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'   # hosted agent (easy)
-
-variables:
-  buildConfiguration: 'Release'
+  name: Default   # your local agent
 
 steps:
+
+- script: echo "Pipeline connected successfully"
+  displayName: Test Connection
+
+- script: dir
+  displayName: Show Files
 
 - task: UseDotNet@2
   inputs:
@@ -17,7 +20,7 @@ steps:
 - script: dotnet restore AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj
   displayName: Restore
 
-- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration $(buildConfiguration)
+- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release
   displayName: Build
 
 - script: dotnet publish AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj -c Release -o $(Build.ArtifactStagingDirectory)

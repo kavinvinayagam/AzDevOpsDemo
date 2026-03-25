@@ -746,3 +746,13 @@ void MergeTemplates(JToken existingGroup, JToken newGroup, string id)
         existingTemplates.Add(templateCustom);
     }
 }
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello World");  // existing
+        Console.WriteLine("CI/CD working test");  
+    }
+}
