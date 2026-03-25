@@ -2,31 +2,13 @@ trigger:
 - master
 
 pool:
-  name: Default   # your local agent
+  name: Default
 
 steps:
+- checkout: self
 
-- script: echo "Pipeline connected successfully"
-  displayName: Test Connection
-
-- script: dir
-  displayName: Show Files
-
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
-
-- script: 
+- script: dotnet restore **/*.csproj
   displayName: Restore
 
-- script: dotnet build AzDevOpsDemoGenerator\src\ADOGenerator\ADOGenerator.csproj --configuration Release
+- script: dotnet build **/*.csproj --configuration Release
   displayName: Build
-
-- script: dotnet publish AzDevOpsDemoGenerator\src\ADOGenerator\ADOGenerator.csproj -c Release -o $(Build.ArtifactStagingDirectory)
-  displayName: Publish
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: drop
