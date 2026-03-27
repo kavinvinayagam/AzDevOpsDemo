@@ -2,22 +2,16 @@ trigger:
 - master
 
 pool:
-  name: Default   # your local agent
+  name: Default
 
 steps:
 - checkout: self
 
-# DEBUG (VERY IMPORTANT)
-- script: dir
-  displayName: Show root
+- script: dir /s
+  displayName: Debug Files
 
-- script: dir AzDevOpsDemoGenerator /s
-  displayName: Show full structure
-
-# RESTORE (FIXED)
-- script: dotnet restore **/*.csproj
+- script: dotnet restore AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj
   displayName: Restore
 
-# BUILD
-- script: dotnet build **/*.csproj --configuration Release
+- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release
   displayName: Build
