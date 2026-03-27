@@ -1,13 +1,14 @@
+
 trigger:
 - master
 
 pool:
-  name: Default
+  vmImage: 'windows-latest'   # hosted agent (easy)
+
+variables:
+  buildConfiguration: 'Release'
 
 steps:
-
-- script: dir
-  displayName: Show repository files
 
 - task: UseDotNet@2
   inputs:
@@ -15,7 +16,15 @@ steps:
     version: '8.x'
 
 - script: dotnet restore AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj
-  displayName: Restore dependencies
+  displayName: Restore
 
-- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release
-  displayName: Build project
+- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration $(buildConfiguration)
+  displayName: Build
+
+- script: dotnet publish AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj -c Release -o $(Build.ArtifactStagingDirectory)
+  displayName: Publish
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: drop
