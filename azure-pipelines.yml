@@ -5,13 +5,17 @@ pool:
   name: Default
 
 steps:
-- checkout: self
 
-- script: dir /s
-  displayName: Debug Files
+- script: dir
+  displayName: Show repository files
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
 
 - script: dotnet restore AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj
-  displayName: Restore
+  displayName: Restore dependencies
 
 - script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release
-  displayName: Build
+  displayName: Build project
