@@ -2,10 +2,9 @@ trigger:
 - master
 
 pool:
-  name: Default
+  vmImage: 'windows-latest'   # ✅ Switch to Microsoft-hosted agent
 
 steps:
-
 - script: dir /s
   displayName: Show all files (debug)
 
@@ -17,5 +16,5 @@ steps:
 - script: dotnet restore AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj
   displayName: Restore
 
-- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release
+- script: dotnet build AzDevOpsDemoGenerator/src/ADOGenerator/ADOGenerator.csproj --configuration Release --no-restore
   displayName: Build
